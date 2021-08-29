@@ -94,3 +94,40 @@ When you complete this problem, the question 4 tests should pass:
 ```
 python trends_grader.py -q 4
 ```
+
+## Phase 2: The Geometry of Maps
+- In this phase, we will implement two functions that together determine the centers of U.S. states. 
+- The shape of a state is represented as a list of. Some states (e.g. Hawaii) consist of multiple polygons, but most states (e.g. Colorado) consist of only one polygon (still represented as a length-one list).
+- We will use the position abstract data type to represent geographic latitude-longitude positions on the Earth. The data abstraction, defined at the top of `geo.py`, has the constructor make_position and the selectors latitude and longitude.
+
+### Problem 5 (2 pt). 
+Implement `find_centroid`, which takes a polygon and returns three values: the coordinates of its centroid and its area. 
+- The input polygon is represented as a list of position values that are consecutive vertices of its perimeter. The first vertex is always identical to the last.
+- The centroid of a two-dimensional shape is its center of balance, defined as the intersection of all straight lines that evenly divide the shape into equal-area halves. `find_centroid` returns the centroid and area of an individual polygon.
+- The formula for computing the centroid of a polygon appears on Wikipedia. The formula relies on vertices being consecutive (either clockwise or counterclockwise; both give the same answer), a property that you may assume always holds for the input.
+- Hint: latitudes correspond to the x values, and longitudes correspond to the yvalues.
+- The area of a polygon is never negative. Depending on how you compute the area, you may need to use the built-in abs function to return a non-negative number.
+- **Manipulate positions using their selectors (latitude and longitude) rather than assuming a particular representation.** 这个是整个data abstraction的关键
+
+When you complete this problem, the question 5 tests should pass:
+```
+python trends_grader.py -q 5
+```
+### Problem 6 (1 pt). 
+Implement `find_state_center`, which takes a state represented by a list of polygons and returns a position object, its centroid.
+- The centroid of a collection of polygons can be computed by geometric decomposition. The centroid of a shape is the weighted average of the centroids of its component polygons, weighted by their area.
+
+When you complete this problem, the question 6 tests should pass:
+```
+python trends_grader.py -q 6
+```
+
+Once you are finished, draw_centered_map will draw the 10 states closest to a given state (including that state). A red dot should appear over the two-letter postal code of the specified state.
+```
+python trends.py -d CA
+```
+
+Your program should work identically, even if you use the functional representation for tweets defined in question 1, using the -f flag.
+```
+python trends.py -f -d CA
+```
