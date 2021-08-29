@@ -50,28 +50,47 @@ Implement the missing selector and constructor functions for these two represent
 
 The two representations created by make_tweet and make_tweet_fn do not need to work together, but each constructor should work with its corresponding selectors. The doctests for make_tweet and make_tweet_fn ensure that this is the case. They can be run along with other tests using:
 ```
-python3 trends_grader.py -q 1
+python trends_grader.py -q 1
 ```
 Next, we will retrieve the words from a tweet and compute their sentiment.
 
 ### Problem 2 (2 pt). 
-Improve the extract_words function as follows: Assume that a word is any consecutive substring of text that consists only of ASCII letters. The string ascii_letters in the string module contains all letters in the ASCII character set. The extract_words function should list all such words in order and nothing else.
+Improve the extract_words function as follows: 
+- Assume that a word is any consecutive substring of text that consists only of ASCII letters. 
+- The string ascii_letters in the string module contains all letters in the ASCII character set. 
+- The `extract_words` function should list all such words in order and nothing else.
 
 When you complete this problem, tests for question 2 should pass:
+```
+python trends_grader.py -q 2
+```
 
-python3 trends_grader.py -q 2
-Problem 3 (1 pt). Implement the sentiment abstract data type, which represents a sentiment value that may or may not exist. The constructor make_sentiment takes either a numeric value within the interval -1 to 1, or None to indicate that the value does not exist. Implement the selectors has_sentiment and sentiment_value as well. You may use any representation you choose, but the rest of your program should not depend on this representation.
+### Problem 3 (1 pt). 
+Implement the sentiment abstract data type, which represents a sentiment value that may or may not exist. 
+- The constructor `make_sentiment` takes either a numeric value within the interval -1 to 1, or None to indicate that the value does not exist. 
+
+Implement the selectors `has_sentiment` and `sentiment_value` as well. 
+- You may use any representation you choose, but the rest of your program should not depend on this representation.
 
 When you complete this problem, the question 3 tests should pass:
+```
+python trends_grader.py -q 3
+```
 
-python3 trends_grader.py -q 3
 You can also call the print_sentiment function to print the sentiment values of all sentiment-carrying words in a line of text.
-python3 trends.py -p computer science is my favorite!
-python3 trends.py -p life without lambda: awful or awesome?
-Problem 4 (1 pt). Implement analyze_tweet_sentiment, which takes a tweet (of the abstract data type) and returns a sentiment. Read the docstrings for get_word_sentiment and analyze_tweet_sentiment in trends.py to understand how the two functions interact. Your implementation should not depend on the representation of a sentiment!.
+```
+python trends.py -p computer science is my favorite!
+python trends.py -p life without lambda: awful or awesome?
+```
+
+### Problem 4 (1 pt). 
+Implement analyze_tweet_sentiment, which takes a tweet (of the abstract data type) and returns a sentiment.
+Read the docstrings for `get_word_sentiment` and `analyze_tweet_sentiment` in `trends.py` to understand how the two functions interact. 
+Your implementation should not depend on the representation of a sentiment!.
 
 The tweet_words function should prove useful here: it combines the tweet_text selector and extract_words function from the previous questions to return a list of words in a tweet.
 
 When you complete this problem, the question 4 tests should pass:
-
-python3 trends_grader.py -q 4
+```
+python trends_grader.py -q 4
+```
