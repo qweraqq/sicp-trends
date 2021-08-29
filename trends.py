@@ -193,10 +193,22 @@ def analyze_tweet_sentiment(tweet):
     >>> has_sentiment(analyze_tweet_sentiment(no_sentiment))
     False
     """
-    # You may change any of the lines below.
+    text = tweet_text(tweet)
+    words = extract_words(text)
+    sum_sentiment = make_sentiment(None)
     average = make_sentiment(None)
-    "*** YOUR CODE HERE ***"
+    word_has_sentiment_count = 0
+    for word in words:
+        if has_sentiment(get_word_sentiment(word)):
+            word_has_sentiment_count += 1
+            if has_sentiment(sum_sentiment):
+                sum_sentiment = make_sentiment(sentiment_value(sum_sentiment) + sentiment_value(get_word_sentiment(word)))
+            else:
+                sum_sentiment = make_sentiment(sentiment_value(get_word_sentiment(word)))
+    if has_sentiment(sum_sentiment):
+        average = make_sentiment(sentiment_value(sum_sentiment) / word_has_sentiment_count)
     return average
+
 
 
 #################################
