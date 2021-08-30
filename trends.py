@@ -237,7 +237,28 @@ def find_centroid(polygon):
     >>> tuple(map(float, find_centroid([p1, p2, p1])))  # A zero-area polygon
     (1.0, 2.0, 0.0)
     """
-    "*** YOUR CODE HERE ***"
+    assert latitude(polygon[0]) == latitude(polygon[-1]) and longitude(polygon[0]) == longitude(polygon[-1])
+    sum_signed_area = 0
+    sum_cx = 0
+    sum_cy = 0
+    for i in range(len(polygon)):
+        xi = latitude(polygon[i])
+        yi = longitude(polygon[i])
+        ip1 = (i + 1) % len(polygon)
+        xip1 = latitude(polygon[ip1])
+        yip1 = longitude(polygon[ip1])
+        tmp = xi * yip1 - xip1 * yi
+        sum_signed_area += tmp
+        sum_cx += (xi + xip1) * tmp
+        sum_cy += (yi + yip1) * tmp
+    area = 0.5 * sum_signed_area
+    try:
+        cx = sum_cx / (6 * area)
+        cy = sum_cy / (6 * area)
+    except ZeroDivisionError:
+        return latitude(polygon[0]), longitude(polygon[0]), area
+    return cx, cy, abs(area)
+
 
 def find_state_center(polygons):
     """Compute the geographic center of a state, averaged over its polygons.
@@ -260,7 +281,20 @@ def find_state_center(polygons):
     >>> round(longitude(hi), 5)
     -156.21763
     """
-    "*** YOUR CODE HERE ***"
+    sum_area = 0
+    sum_cx = 0
+    sum_cy = 0
+    for polygon in polygons:
+        cx, cy, area = find_centroid(polygon)
+        sum_cx += area * cx
+        sum_cy += area * cy
+        sum_area += area
+    
+    if sum_area == 0:
+        cx, cy, _ = find_centroid(polygons[0])
+        return  make_position(cx, cy)
+    return make_position(sum_cx/sum_area, sum_cy/sum_area)
+
 
 
 ###################################
