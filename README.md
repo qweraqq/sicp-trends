@@ -97,7 +97,7 @@ python trends_grader.py -q 4
 
 ## Phase 2: The Geometry of Maps
 - In this phase, we will implement two functions that together determine the centers of U.S. states. 
-- The shape of a state is represented as a list of. Some states (e.g. Hawaii) consist of multiple polygons, but most states (e.g. Colorado) consist of only one polygon (still represented as a length-one list).
+- The shape of a state is represented as a list of polygons. Some states (e.g. Hawaii) consist of multiple polygons, but most states (e.g. Colorado) consist of only one polygon (still represented as a length-one list).
 - We will use the position abstract data type to represent geographic latitude-longitude positions on the Earth. The data abstraction, defined at the top of `geo.py`, has the constructor make_position and the selectors latitude and longitude.
 
 ### Problem 5 (2 pt). 
