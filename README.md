@@ -131,3 +131,43 @@ Your program should work identically, even if you use the functional representat
 ```
 python trends.py -f -d CA
 ```
+
+## Phase 3: The Mood of the Nation
+In this phase, you will group tweets by their nearest state center and calculate the average positive or negative feeling in all the tweets associated with a state.
+
+The name `us_states` is bound to a dictionary containing the shape of each U.S. state, keyed by its two-letter postal code. You can use the keys of this dictionary to iterate over all the U.S. states.
+
+### Problem 7 (2 pt). 
+Implement `group_tweets_by_state`, which takes a sequence of tweets and returns a dictionary. 
+- The keys of the returned dictionary are state names (two-letter postal codes), and the values are lists of tweets that appear closer to that state's center than any other.
+- You should not include any states as keys that are not nearest to any tweet. 
+- You may want to define additional functions to organize your implementation into modular components. - You will need to use the dictionary of `us_states` described above.
+
+When you complete this problem, the question 7 tests should pass:
+```
+python trends_grader.py -q 7
+```
+
+### Problem 8 (2 pt). 
+Implement `average_sentiments`. 
+- This function takes the dictionary returned by group_tweets_by_state and also returns a dictionary.
+- The keys of the returned dictionary are the state names (two-letter postal codes), and the values are average sentiment values for all the tweets that have sentiment value in that state.
+- If a state has no tweets with sentiment values, leave it out of the returned dictionary entirely. **Do not include a state with no sentiment using a zero sentiment value**. Zero represents neutral sentiment, not unknown sentiment. States with unknown sentiment will appear gray, while states with neutral sentiment will appear white.
+
+When you complete this problem, the question 8 tests should pass:
+```bash
+python trends_grader.py -q 8
+```
+
+You should now be able to draw maps that are colored by sentiment corresponding to tweets that contain a given term. The correct map for Texas appears at the top of this page.
+```bash
+python trends.py -m texas
+python trends.py -m sandwich
+python trends.py -m obama
+python trends.py -m my life
+```
+
+Your program should work identically, even if you use the functional representation for tweets defined in question 1, using the -f flag.
+```bash
+python trends.py -f -m texas
+```
