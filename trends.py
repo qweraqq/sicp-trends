@@ -196,18 +196,18 @@ def analyze_tweet_sentiment(tweet):
     """
     text = tweet_text(tweet)
     words = extract_words(text)
-    sum_sentiment = make_sentiment(None)
+    sum_sentiment_value = None
     average = make_sentiment(None)
     word_has_sentiment_count = 0
     for word in words:
         if has_sentiment(get_word_sentiment(word)):
             word_has_sentiment_count += 1
-            if has_sentiment(sum_sentiment):
-                sum_sentiment = make_sentiment(sentiment_value(sum_sentiment) + sentiment_value(get_word_sentiment(word)))
+            if sum_sentiment_value is not None:
+                sum_sentiment_value = sum_sentiment_value + sentiment_value(get_word_sentiment(word))
             else:
-                sum_sentiment = make_sentiment(sentiment_value(get_word_sentiment(word)))
-    if has_sentiment(sum_sentiment):
-        average = make_sentiment(sentiment_value(sum_sentiment) / word_has_sentiment_count)
+                sum_sentiment_value = sentiment_value(get_word_sentiment(word))
+    if sum_sentiment_value is not None:
+        average = make_sentiment(sum_sentiment_value / word_has_sentiment_count)
     return average
 
 
@@ -328,6 +328,8 @@ def group_tweets_by_state(tweets):
     
     for tweet in tweets:
         tweet_position = tweet_location(tweet)
+        if longitude(tweet_position) is None or latitude(tweet_position) is None:
+            continue
         min_distance = inf
         min_distance_state = None
         for us_state in us_states:
@@ -335,7 +337,7 @@ def group_tweets_by_state(tweets):
             if distance < min_distance:
                 min_distance = distance
                 min_distance_state = us_state
-                
+
         if min_distance_state not in tweets_by_state:
             tweets_by_state[min_distance_state] = []
         tweets_by_state[min_distance_state].append(tweet)
@@ -355,7 +357,14 @@ def average_sentiments(tweets_by_state):
     tweets_by_state -- A dictionary from state names to lists of tweets
     """
     averaged_state_sentiments = {}
-    "*** YOUR CODE HERE ***"
+    for us_state in tweets_by_state:
+        tweets = tweets_by_state[us_state]
+        tweet_sentiments = [analyze_tweet_sentiment(tweet) for tweet in tweets]
+        tweet_sentiments_filtered =  [_ for _ in tweet_sentiments if has_sentiment(_)]
+        if len(tweet_sentiments_filtered) == 0:
+            continue
+        averaged_state_sentiments[us_state] = sum([sentiment_value(_) for _ in tweet_sentiments_filtered]) / len(tweet_sentiments_filtered)
+        
     return averaged_state_sentiments
 
 
