@@ -1,5 +1,6 @@
 """Visualizing Twitter Sentiment Across America"""
 
+from math import inf
 from data import word_sentiments, load_tweets
 from datetime import datetime
 from geo import us_states, geo_distance, make_position, longitude, latitude
@@ -321,7 +322,24 @@ def group_tweets_by_state(tweets):
     '"welcome to san francisco" @ (38, -122)'
     """
     tweets_by_state = {}
-    "*** YOUR CODE HERE ***"
+    state_center = {}
+    for us_state in us_states:
+        state_center[us_state] = find_state_center(us_states[us_state])
+    
+    for tweet in tweets:
+        tweet_position = tweet_location(tweet)
+        min_distance = inf
+        min_distance_state = None
+        for us_state in us_states:
+            distance = geo_distance(tweet_position, state_center[us_state])
+            if distance < min_distance:
+                min_distance = distance
+                min_distance_state = us_state
+                
+        if min_distance_state not in tweets_by_state:
+            tweets_by_state[min_distance_state] = []
+        tweets_by_state[min_distance_state].append(tweet)
+
     return tweets_by_state
 
 def average_sentiments(tweets_by_state):
